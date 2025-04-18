@@ -1,0 +1,75 @@
+import { cli } from 'cleye';
+import { description, version } from '../package.json';
+import ollamacommits from './commands/ollamacommits.js';
+import prepareCommitMessageHook from './commands/prepare-commit-msg-hook.js';
+import configCommand from './commands/config.js';
+import hookCommand, { isCalledFromGitHook } from './commands/hook.js';
+
+const rawArgv = process.argv.slice(2);
+
+cli(
+	{
+		name: 'ollamacommits',
+
+		version,
+
+		/**
+		 * Since this is a wrapper around `git commit`,
+		 * flags should not overlap with it
+		 * https://git-scm.com/docs/git-commit
+		 */
+		flags: {
+			generate: {
+				type: Number,
+				description:
+					'Number of messages to generate (Warning: generating multiple costs more) (default: 1)',
+				alias: 'g',
+			},
+			model: {
+				type: String,
+				description: 'Model to be used (default: 1)',
+				alias: 'm',
+			},
+			exclude: {
+				type: [String],
+				description: 'Files to exclude from AI analysis',
+				alias: 'x',
+			},
+			all: {
+				type: Boolean,
+				description:
+					'Automatically stage changes in tracked files for the commit',
+				alias: 'a',
+				default: false,
+			},
+			type: {
+				type: String,
+				description: 'Type of commit message to generate',
+				alias: 't',
+			},
+		},
+
+		commands: [configCommand, hookCommand],
+
+		help: {
+			description,
+		},
+
+		ignoreArgv: (type) => type === 'unknown-flag' || type === 'argument',
+	},
+	(argv) => {
+		if (isCalledFromGitHook) {
+			prepareCommitMessageHook();
+		} else {
+			ollamacommits(
+				argv.flags.generate,
+				argv.flags.exclude,
+				argv.flags.all,
+				argv.flags.type,
+				argv.flags.model,
+				rawArgv
+			);
+		}
+	},
+	rawArgv
+);
