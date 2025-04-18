@@ -1,9 +1,7 @@
 import { cli } from 'cleye';
 import { description, version } from '../package.json';
 import ollamacommits from './commands/ollamacommits.js';
-import prepareCommitMessageHook from './commands/prepare-commit-msg-hook.js';
 import configCommand from './commands/config.js';
-import hookCommand, { isCalledFromGitHook } from './commands/hook.js';
 
 const rawArgv = process.argv.slice(2);
 
@@ -19,15 +17,9 @@ cli(
 		 * https://git-scm.com/docs/git-commit
 		 */
 		flags: {
-			generate: {
-				type: Number,
-				description:
-					'Number of messages to generate (Warning: generating multiple costs more) (default: 1)',
-				alias: 'g',
-			},
 			model: {
 				type: String,
-				description: 'Model to be used (default: 1)',
+				description: 'Model to be used',
 				alias: 'm',
 			},
 			exclude: {
@@ -37,8 +29,7 @@ cli(
 			},
 			all: {
 				type: Boolean,
-				description:
-					'Automatically stage changes in tracked files for the commit',
+				description: 'Automatically stage changes in tracked files for the commit',
 				alias: 'a',
 				default: false,
 			},
@@ -49,7 +40,7 @@ cli(
 			},
 		},
 
-		commands: [configCommand, hookCommand],
+		commands: [configCommand],
 
 		help: {
 			description,
@@ -58,18 +49,13 @@ cli(
 		ignoreArgv: (type) => type === 'unknown-flag' || type === 'argument',
 	},
 	(argv) => {
-		if (isCalledFromGitHook) {
-			prepareCommitMessageHook();
-		} else {
-			ollamacommits(
-				argv.flags.generate,
-				argv.flags.exclude,
-				argv.flags.all,
-				argv.flags.type,
-				argv.flags.model,
-				rawArgv
-			);
-		}
+		ollamacommits(
+			argv.flags.exclude,
+			argv.flags.all,
+			argv.flags.type,
+			argv.flags.model,
+			rawArgv
+		);
 	},
 	rawArgv
 );

@@ -18,7 +18,6 @@ import { generateCommitMessage, getModels } from '../utils/ollama.js';
 import { KnownError, handleCliError } from '../utils/error.js';
 
 export default async (
-	generate: number | undefined,
 	excludeFiles: string[],
 	stageAll: boolean,
 	commitType: string | undefined,
@@ -54,10 +53,10 @@ export default async (
 
 		const { env } = process;
 		const config = await getConfig({
-			generate: generate?.toString(),
 			type: commitType?.toString(),
 			model: model?.toString(),
 		});
+
 
 		let selectedModel = config.model;
 
@@ -69,7 +68,7 @@ export default async (
 			});
 
 			if (isCancel(model)) {
-				outro('Commit cancelled');
+				outro('Cancelled');
 				return;
 			}
 			selectedModel = model;
