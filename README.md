@@ -1,11 +1,14 @@
 <div align="center">
   <div>
-	 <img src=".github/screenshot.png" alt="AI Commits"/>
 	 <h1 align="center">Ollama Commits</h1>
   </div>
 	<p>A CLI that writes your git commit messages for you with Ollama. Never write a commit message again.</p>
-	<a href="https://www.npmjs.com/package/aicommits"><img src="https://img.shields.io/npm/v/aicommits" alt="Current version"></a>
+	<a href="https://www.npmjs.com/package/ollamacommits"><img src="https://img.shields.io/npm/v/ollamacommits" alt="Current version"></a>
 </div>
+
+---
+
+Based on https://github.com/Nutlope/aicommits
 
 ---
 
@@ -13,7 +16,7 @@
 
 > The minimum supported version of Node.js is the latest v14. Check your Node.js version with `node --version`.
 
-1. Install _aicommits_:
+1. Install _ollamacommits_:
 
 	```sh
 	npm install -g ollamacommits
