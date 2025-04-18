@@ -40,20 +40,6 @@ Or in non-UNIX environments, you can use Node.js to run the file:
 node ./dist/cli.mjs
 ```
 
-## Testing
-
-Testing requires passing in `OPENAI_KEY` as an environment variable:
-
-```sh
-OPENAI_KEY=<your OPENAI key> pnpm test
-```
-
-
-You can still run tests that don't require `OPENAI_KEY` but will not test the main functionality:
-```
-pnpm test
-```
-
 
 ## Using & testing your changes
 
@@ -64,12 +50,12 @@ Publish your current branch to a `npm/*` branch on your GitHub repository:
 $ pnpm dlx git-publish
 
 ✔ Successfully published branch! Install with command:
-  → npm i 'Nutlope/aicommits#npm/develop'
+	→ npm i 'ElRochito/ollamacommits#npm/develop'
 ```
 
 > Note: The `Nutlope/aicommits` will be replaced with your fork's URL.
 
 Now, you can run the branch in your project:
 ```sh
-$ pnpm dlx 'Nutlope/aicommits#npm/develop' # same as running `npx aicommits`
+$ pnpm dlx 'ElRochito/ollamacommits#npm/develop' # same as running `npx aicommits`
 ```
